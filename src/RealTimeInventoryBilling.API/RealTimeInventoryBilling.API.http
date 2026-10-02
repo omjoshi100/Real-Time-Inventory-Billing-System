@@ -1,0 +1,6 @@
+@RealTimeInventoryBilling.API_HostAddress = http://localhost:5146
+
+GET {{RealTimeInventoryBilling.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

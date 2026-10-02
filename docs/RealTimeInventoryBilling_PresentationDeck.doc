@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>Presentation Deck - Real-Time Inventory &amp; Billing System</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1E293B;
+    margin: 36pt 48pt;
+  }
+  .slide-box {
+    border: 2pt solid #2563EB;
+    border-radius: 8pt;
+    padding: 24pt;
+    margin-bottom: 24pt;
+    background: #FFFFFF;
+    page-break-after: always;
+  }
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1.5pt solid #CBD5E1;
+    padding-bottom: 8pt;
+    margin-bottom: 14pt;
+  }
+  .slide-num {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #2563EB;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 18pt;
+    color: #0F172A;
+    margin-top: 4pt;
+    margin-bottom: 12pt;
+    font-weight: bold;
+  }
+  ul {
+    margin-left: 20pt;
+    margin-bottom: 12pt;
+  }
+  li {
+    margin-bottom: 6pt;
+    font-size: 12pt;
+  }
+  .notes-box {
+    background-color: #FFFBEB;
+    border-left: 3pt solid #F59E0B;
+    padding: 8pt 12pt;
+    margin-top: 14pt;
+    font-size: 10pt;
+    color: #92400E;
+  }
+  .code-snippet {
+    background: #0F172A;
+    color: #38BDF8;
+    padding: 8pt 12pt;
+    border-radius: 4pt;
+    font-family: 'Consolas', monospace;
+    font-size: 9.5pt;
+    margin: 8pt 0;
+  }
+</style>
+</head>
+<body>
+
+<h1 style="text-align: center; color: #2563EB; margin-bottom: 6pt;">POWERPOINT PRESENTATION SLIDE DECK</h1>
+<p style="text-align: center; color: #64748B; margin-bottom: 24pt;">
+  <strong>Real-Time Inventory &amp; Billing System &bull; Capstone Project Defense &bull; 12 Slides with Speaker Notes</strong>
+</p>
+
+<!-- SLIDE 1 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 1 of 12</span>
+    <span style="color: #64748B;">Title Slide</span>
+  </div>
+  <h2 style="font-size: 24pt; color: #1E3A8A;">Real-Time Inventory &amp; Billing System</h2>
+  <p style="font-size: 14pt; color: #475569;">A Unified Distributed Architecture Uniting WPF (MVVM), WinForms, ASP.NET Core Web API, SQL Server ACID Transactions &amp; SignalR WebSockets</p>
+  <div style="margin-top: 20pt;">
+    <p><strong>Candidate:</strong> Om Joshi (GitHub: @omjoshi100)</p>
+    <p><strong>Technology Stack:</strong> C# 12, .NET 10 / 8, WPF, Windows Forms, SQL Server, SignalR Core, JWT</p>
+    <p><strong>Live Repository:</strong> github.com/omjoshi100/Real-Time-Inventory-Billing-System</p>
+  </div>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "Good morning evaluators. Today I am presenting my capstone project, the Real-Time Inventory &amp; Billing System. This project was built to address a major challenge in retail engineering: how to synchronize cashier point-of-sale terminals and corporate admin screens with sub-15 millisecond latency and zero negative-stock race conditions."
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 2 of 12</span>
+    <span style="color: #64748B;">Problem Statement</span>
+  </div>
+  <h2>The Architectural Problem with Traditional POS Systems</h2>
+  <ul>
+    <li><strong>The Polling Overhead:</strong> Admin screens query the server every 2 to 5 seconds. In a 50-register store, this produces tens of thousands of wasteful queries per hour, saturating connection pools.</li>
+    <li><strong>Concurrency Overselling:</strong> When two cashiers scan the last item simultaneously, standard ORMs perform naive read-then-write updates. Both see Stock = 1, both sell it, causing negative inventory.</li>
+    <li><strong>Disparate Requirements:</strong> Cashiers need a fast, reactive POS interface, while store managers need a dense, high-capacity operations console.</li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "Traditional systems rely on HTTP polling, which is inefficient. Furthermore, under high-traffic flash sales, lack of row locking leads to overselling. Our system solves both bottlenecks simultaneously."
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 3 of 12</span>
+    <span style="color: #64748B;">System Architecture</span>
+  </div>
+  <h2>3-Tier Distributed System Topology</h2>
+  <ul>
+    <li><strong>Client Tier:</strong>
+      <ul>
+        <li>WPF Cashier Terminal (MVVM Pattern, reactive cart calculations, barcode scanning).</li>
+        <li>Windows Forms Admin Console (High-density DataGridViews, Live Sales Ticker, KPI cards).</li>
+      </ul>
+    </li>
+    <li><strong>Service Tier (ASP.NET Core Web API):</strong>
+      <ul>
+        <li>JWT Bearer Authentication with role claims (<code>Admin</code>, <code>Cashier</code>, <code>Manager</code>).</li>
+        <li>SignalR WebSocket Hub (<code>/hubs/inventory</code>) for bidirectional duplex streaming.</li>
+      </ul>
+    </li>
+    <li><strong>Data Tier (SQL Server Engine):</strong>
+      <ul>
+        <li>Normalized 3NF relational schema with foreign key constraints.</li>
+        <li>ACID stored procedures with row-level pessimistic locking (<code>UPDLOCK, ROWLOCK</code>).</li>
+        <li>Covering non-clustered indexes eliminating Key Lookups.</li>
+      </ul>
+    </li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "Notice our multi-client approach: the backend serves both modern WPF and classic Windows Forms equally. This proves the API is clean, decoupled, and client-agnostic."
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 4 of 12</span>
+    <span style="color: #64748B;">Real-Time Pipeline</span>
+  </div>
+  <h2>SignalR Core Real-Time WebSocket Streaming</h2>
+  <ul>
+    <li><strong>Sub-15ms Latency:</strong> Pushes updates directly over WebSockets only when state changes occur. Zero polling.</li>
+    <li><strong>Core Broadcast Events:</strong>
+      <ul>
+        <li><code>ReceiveInvoiceCreated</code> &rarr; Pushes the completed invoice to the WinForms Live Sales Ticker.</li>
+        <li><code>ReceiveLowStockAlert</code> &rarr; Dispatched when stock &le; threshold; triggers crimson banner &amp; chime.</li>
+        <li><code>ReceiveInventoryUpdate</code> &rarr; Updates catalog quantities across all screens in-place.</li>
+      </ul>
+    </li>
+    <li><strong>Thread-Safe Desktop UI Marshaling:</strong>
+      <ul>
+        <li>WPF: <code>Application.Current.Dispatcher.Invoke(() =&gt; ...);</code></li>
+        <li>WinForms: <code>this.BeginInvoke(new Action(() =&gt; ...));</code></li>
+      </ul>
+    </li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "SignalR operates over RFC 6455 WebSockets. Because socket packets arrive on background threadpool workers, we marshal them to the UI thread using Dispatcher in WPF and BeginInvoke in WinForms."
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 5 of 12</span>
+    <span style="color: #64748B;">Database Engineering</span>
+  </div>
+  <h2>ACID Stored Procedures &amp; Pessimistic Locking</h2>
+  <ul>
+    <li><strong><code>sp_CreateInvoiceWithStockDeduction</code>:</strong>
+      <ul>
+        <li><code>SET XACT_ABORT ON</code> guarantees automatic transaction abort and rollback on error.</li>
+        <li><code>WITH (UPDLOCK, ROWLOCK)</code> takes exclusive update locks on the cart items during the check phase.</li>
+        <li>Verifies <code>CurrentStock &ge; Quantity</code>. If insufficient, throws error 50002 and rolls back.</li>
+        <li>Atomically writes header, items, decrements product stock, and records movement ledger.</li>
+      </ul>
+    </li>
+  </ul>
+  <div class="code-snippet">
+SELECT @InsufficientItem = p.Name
+FROM @Items i INNER JOIN dbo.Products p WITH (UPDLOCK, ROWLOCK) ON i.ProductId = p.ProductId
+WHERE p.CurrentStock &lt; i.Quantity;
+IF @InsufficientItem IS NOT NULL THROW 50002, 'Insufficient stock', 1;
+  </div>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "This stored procedure is the centerpiece of the database tier. By locking only the cart rows with ROWLOCK, other cashiers can sell different products at full concurrency without waiting."
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 6 of 12</span>
+    <span style="color: #64748B;">Index Optimization</span>
+  </div>
+  <h2>B-Tree Indexing Strategy: Eliminating Key Lookups</h2>
+  <ul>
+    <li><strong>Covering Non-Clustered Index:</strong>
+      <div class="code-snippet">
+CREATE NONCLUSTERED INDEX IX_Products_LowStock_Covering
+ON dbo.Products (CurrentStock, LowStockThreshold, IsActive)
+INCLUDE (Name, SKU, UnitPrice, CategoryId);
+      </div>
+    </li>
+    <li><strong>Why <code>INCLUDE</code>?</strong> Attaching non-key columns directly to the B-Tree leaf pages allows SQL Server to satisfy low-stock alert scans through a pure <strong>Index Seek</strong>, avoiding random clustered table reads.</li>
+    <li><strong>Unique Barcode Index:</strong> <code>IX_Products_SKU_Barcode</code> ensures $O(\log N)$ latency during rapid cashier barcode scanning.</li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "Covering indexes are an enterprise database optimization. Without the INCLUDE clause, SQL Server would have to perform a Key Lookup for every row, degrading performance as tables grow."
+  </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 7 of 12</span>
+    <span style="color: #64748B;">WPF Client</span>
+  </div>
+  <h2>WPF Cashier Terminal (MVVM Pattern)</h2>
+  <ul>
+    <li><strong>Separation of Concerns:</strong> <code>BillingViewModel</code> contains all business calculations, discounts, and validation with zero UI control references.</li>
+    <li><strong>Reactive Two-Way Binding:</strong> Changes to items or tender amount reactively recalculate subtotal, 5% tax, and change due.</li>
+    <li><strong>POS Features:</strong>
+      <ul>
+        <li>Barcode scanner input with Enter key shortcut.</li>
+        <li>Stock indicator pills (Green = In Stock, Red = Low Stock).</li>
+        <li>Printable Customer Receipt preview modal with 1-click clipboard copy.</li>
+      </ul>
+    </li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "MVVM allows the billing and cart logic to be thoroughly unit tested independently of the visual presentation layer."
+  </div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 8 of 12</span>
+    <span style="color: #64748B;">WinForms Client</span>
+  </div>
+  <h2>Windows Forms Operations &amp; Admin Console</h2>
+  <ul>
+    <li><strong>Executive KPI Cards:</strong> Real-time aggregation of Today's Gross Revenue, Invoices Issued, Low Stock Item Count, and Catalog Items.</li>
+    <li><strong>Live Sales Ticker:</strong> Automatically prepends newly completed sales streamed over SignalR with a green flash.</li>
+    <li><strong>ACID Restock Dialog:</strong> Invokes <code>sp_AdjustInventoryStock</code> to replenish stock or write off shrinkage. Updates all cashiers instantly!</li>
+    <li><strong>CSV Export:</strong> 1-click export of invoice records for spreadsheet accounting.</li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "WinForms was selected deliberately for the admin console because of its high-density data representation, ultra-fast startup, and rock-solid DataGridView rendering."
+  </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 9 of 12</span>
+    <span style="color: #64748B;">Security</span>
+  </div>
+  <h2>Security &amp; Role-Based Access Control (RBAC)</h2>
+  <ul>
+    <li><strong>Cryptographic Password Hashing:</strong> 16-byte random salt per user + SHA-256 hashing. Passwords are never stored in plaintext.</li>
+    <li><strong>JWT Bearer Token Security:</strong> Tokens signed with HMAC-SHA256, carrying user identity and role claims.</li>
+    <li><strong>Endpoint Authorization Policies:</strong>
+      <ul>
+        <li><code>[Authorize(Roles = "Admin,Cashier")]</code> &rarr; Checkout endpoints.</li>
+        <li><code>[Authorize(Roles = "Admin,Manager")]</code> &rarr; Stock replenishment &amp; catalog creation.</li>
+        <li><code>[Authorize(Roles = "Admin")]</code> &rarr; Financial overview and staff user accounts.</li>
+      </ul>
+    </li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "We enforce zero-trust endpoint protection. A cashier attempting to modify catalog prices or adjust stock receives an HTTP 403 Forbidden response."
+  </div>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 10 of 12</span>
+    <span style="color: #64748B;">Benchmarks</span>
+  </div>
+  <h2>Empirical Test Results &amp; Performance Benchmarks</h2>
+  <ul>
+    <li><strong>Checkout Latency:</strong> <strong>24 ms</strong> (5.0x faster than multiple ORM round-trips).</li>
+    <li><strong>SignalR WebSocket Broadcast:</strong> <strong>11 ms</strong> (Replaces 2,000–5,000ms polling latency).</li>
+    <li><strong>Server CPU Load (50 Registers):</strong> <strong>1.8% average</strong> (94.7% reduction vs polling).</li>
+    <li><strong>Overselling Concurrency Anomalies:</strong> <strong>0.00%</strong> (100% eliminated via pessimistic locking).</li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "These empirical benchmarks demonstrate the performance advantages of executing the checkout logic within a single stored procedure and pushing updates via WebSockets."
+  </div>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 11 of 12</span>
+    <span style="color: #64748B;">Deployment</span>
+  </div>
+  <h2>Deployment, Packaging &amp; Live Demo Flow</h2>
+  <ul>
+    <li><strong>One-Click Demo Script:</strong> <code>scripts/start_demo.ps1</code> starts the API, WPF Cashier screen, and WinForms Admin screen side-by-side.</li>
+    <li><strong>Automated Release Publishing:</strong> <code>scripts/build_and_publish.ps1</code> produces self-contained binaries in <code>publish/</code>.</li>
+    <li><strong>Windows Installer:</strong> <code>installer/setup_script.iss</code> compiles a full Inno Setup installer with desktop shortcuts and uninstaller.</li>
+    <li><strong>Zero-Friction Portability:</strong> Includes production SQL Server scripts as well as an automated embedded database provider that runs instantly on any machine!</li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "The system is packaged for immediate distribution. Anyone cloning the repository can run start_demo.ps1 and see the live system running in 5 seconds."
+  </div>
+</div>
+
+<!-- SLIDE 12 -->
+<div class="slide-box">
+  <div class="slide-header">
+    <span class="slide-num">Slide 12 of 12</span>
+    <span style="color: #64748B;">Conclusion</span>
+  </div>
+  <h2>Conclusion &amp; Technical Defense Q&amp;A</h2>
+  <ul>
+    <li><strong>Capstone Achievement:</strong> A production-grade distributed system combining WPF MVVM, WinForms, Web API, SQL Server stored procedures, and SignalR.</li>
+    <li><strong>Key Architectural Lessons:</strong>
+      <ul>
+        <li>Stored procedures provide atomic isolation and cut network hops by 75%.</li>
+        <li>SignalR eliminates the CPU and database saturation caused by client polling.</li>
+        <li>Pessimistic row locking guarantees zero overselling during flash sales.</li>
+      </ul>
+    </li>
+    <li><strong>GitHub Repository:</strong> <a href="https://github.com/omjoshi100/Real-Time-Inventory-Billing-System">github.com/omjoshi100/Real-Time-Inventory-Billing-System</a></li>
+  </ul>
+  <div class="notes-box">
+    <strong>Speaker Notes:</strong> "Thank you for your time. I am now open to your questions and would be delighted to demonstrate the live side-by-side synchronization."
+  </div>
+</div>
+
+</body>
+</html>

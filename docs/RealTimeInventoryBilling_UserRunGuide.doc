@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>Real-Time Inventory &amp; Billing System - User Manual &amp; Run Guide</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1E293B;
+    margin: 36pt 48pt;
+  }
+  h1 {
+    font-size: 24pt;
+    color: #0F172A;
+    border-bottom: 2pt solid #2563EB;
+    padding-bottom: 6pt;
+    margin-top: 18pt;
+    margin-bottom: 12pt;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 16pt;
+    color: #1E3A8A;
+    border-bottom: 1pt solid #CBD5E1;
+    padding-bottom: 4pt;
+    margin-top: 16pt;
+    margin-bottom: 8pt;
+    font-weight: bold;
+  }
+  h3 {
+    font-size: 13pt;
+    color: #1E40AF;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+    font-weight: bold;
+  }
+  p {
+    margin-bottom: 8pt;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12pt 0;
+  }
+  th {
+    background-color: #1E293B;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: left;
+    padding: 8pt 10pt;
+    border: 1pt solid #CBD5E1;
+  }
+  td {
+    padding: 7pt 10pt;
+    border: 1pt solid #CBD5E1;
+  }
+  tr:nth-child(even) {
+    background-color: #F8FAFC;
+  }
+  .badge-admin {
+    background-color: #EFF6FF;
+    color: #1D4ED8;
+    padding: 2pt 6pt;
+    border-radius: 4pt;
+    font-weight: bold;
+  }
+  .badge-cashier {
+    background-color: #ECFDF5;
+    color: #047857;
+    padding: 2pt 6pt;
+    border-radius: 4pt;
+    font-weight: bold;
+  }
+  .badge-mgr {
+    background-color: #FEF3C7;
+    color: #B45309;
+    padding: 2pt 6pt;
+    border-radius: 4pt;
+    font-weight: bold;
+  }
+  .callout-box {
+    background-color: #F0FDF4;
+    border-left: 4pt solid #10B981;
+    padding: 10pt 14pt;
+    margin: 12pt 0;
+  }
+  .warning-box {
+    background-color: #FEF2F2;
+    border-left: 4pt solid #EF4444;
+    padding: 10pt 14pt;
+    margin: 12pt 0;
+  }
+  .code-block {
+    background-color: #0F172A;
+    color: #38BDF8;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10pt;
+    padding: 10pt 14pt;
+    border-radius: 4pt;
+    margin: 8pt 0;
+  }
+  .step-num {
+    display: inline-block;
+    background-color: #2563EB;
+    color: #FFFFFF;
+    font-weight: bold;
+    width: 20pt;
+    height: 20pt;
+    text-align: center;
+    line-height: 20pt;
+    border-radius: 50%;
+    margin-right: 6pt;
+  }
+</style>
+</head>
+<body>
+
+<h1>REAL-TIME INVENTORY &amp; BILLING SYSTEM</h1>
+<p style="font-size: 14pt; color: #64748B; margin-top: -6pt;"><strong>Comprehensive End-to-End User Manual &amp; Step-by-Step Operational Guide</strong></p>
+<p><strong>System Classification:</strong> Multi-Client Distributed Enterprise System (WPF MVVM + WinForms + ASP.NET Core Web API + SQL Server + SignalR WebSockets)<br>
+<strong>Target Audience:</strong> System Evaluators, Cashiers, Store Managers, System Administrators</p>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h2>1. COMPLETE CREDENTIAL DIRECTORY</h2>
+<p>The system comes pre-configured with three distinct role accounts for testing and evaluation. Passwords are case-sensitive.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Assigned Permissions &amp; Capabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge-cashier">Cashier</span></td>
+      <td><strong>cashier1</strong></td>
+      <td><strong>Cashier@123</strong></td>
+      <td>Point-of-Sale (POS) terminal billing, barcode lookup, reactive cart management, tender calculation, receipt issuance.</td>
+    </tr>
+    <tr>
+      <td><span class="badge-admin">Admin</span></td>
+      <td><strong>admin</strong></td>
+      <td><strong>Admin@123</strong></td>
+      <td>Executive financial analytics, Live Sales Ticker, full catalog CRUD, user management, audit log export, and warehouse restock.</td>
+    </tr>
+    <tr>
+      <td><span class="badge-mgr">Manager</span></td>
+      <td><strong>manager1</strong></td>
+      <td><strong>Manager@123</strong></td>
+      <td>Warehouse inventory tracking, manual stock adjustments (damage/returns/restock), and low-stock replenishment monitoring.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout-box">
+  <strong>Quick Login Tip:</strong> On both the WPF and WinForms login screens, you can simply click the <strong>"Admin Preset"</strong>, <strong>"Cashier Preset"</strong>, or <strong>"Manager Preset"</strong> buttons at the bottom to automatically populate the username and password with zero typing!
+</div>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h2>2. PREREQUISITES &amp; SYSTEM REQUIREMENTS</h2>
+<ul>
+  <li><strong>Operating System:</strong> Windows 10 or Windows 11 (64-bit).</li>
+  <li><strong>Runtime Framework:</strong> .NET 8.0 SDK or .NET 10.0 SDK installed.</li>
+  <li><strong>Database Engine:</strong> SQL Server (LocalDB, Express, or Enterprise) OR the built-in automatic local database provider (runs 100% out of the box with zero external configuration needed).</li>
+  <li><strong>Project Path:</strong> <code>C:\Users\OM\.gemini\antigravity\scratch\RealTimeInventoryBillingSystem</code></li>
+</ul>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h2>3. HOW TO RUN THE PROJECT (START TO END)</h2>
+
+<h3>Method A: One-Click Side-by-Side Launcher (Recommended)</h3>
+<p>This automated script starts all 3 components concurrently in under 5 seconds:</p>
+<ol>
+  <li>Press <strong>Win + R</strong>, type <strong>powershell</strong>, and press <strong>Enter</strong>.</li>
+  <li>Paste the following command and hit Enter:
+    <div class="code-block">
+      powershell -ExecutionPolicy Bypass -File "C:\Users\OM\.gemini\antigravity\scratch\RealTimeInventoryBillingSystem\scripts\start_demo.ps1"
+    </div>
+  </li>
+  <li><strong>Result:</strong>
+    <ul>
+      <li>The <strong>ASP.NET Core Web API</strong> starts in the background on <code>http://localhost:5000</code>.</li>
+      <li>The <strong>WPF Cashier POS Terminal</strong> window opens automatically.</li>
+      <li>The <strong>WinForms Admin Console</strong> window opens automatically side-by-side.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>Method B: Opening in Visual Studio</h3>
+<ol>
+  <li>Navigate to: <code>C:\Users\OM\.gemini\antigravity\scratch\RealTimeInventoryBillingSystem</code></li>
+  <li>Double-click <strong><code>RealTimeInventoryBilling.slnx</code></strong> to load the full solution.</li>
+  <li>Right-click the Solution node &gt; <strong>Set Startup Projects...</strong> &gt; Select <strong>Multiple startup projects</strong>:
+    <ul>
+      <li><code>RealTimeInventoryBilling.API</code> &rarr; <strong>Start</strong></li>
+      <li><code>RealTimeInventoryBilling.WPF</code> &rarr; <strong>Start</strong></li>
+      <li><code>RealTimeInventoryBilling.WinForms</code> &rarr; <strong>Start</strong></li>
+    </ul>
+  </li>
+  <li>Press <strong>F5</strong> to run all three projects under debugging mode.</li>
+</ol>
+
+<h3>Method C: Running Compiled Standalone Executables</h3>
+<p>If you want to run the binaries directly without opening a development environment:</p>
+<ul>
+  <li><strong>Backend Service:</strong> <code>publish\API\RealTimeInventoryBilling.API.exe</code></li>
+  <li><strong>WPF POS Terminal:</strong> <code>publish\WPF_Cashier_POS\RealTimeInventoryBilling.WPF.exe</code></li>
+  <li><strong>WinForms Admin:</strong> <code>publish\WinForms_Admin\RealTimeInventoryBilling.WinForms.exe</code></li>
+</ul>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h2>4. HOW TO NAVIGATE THE APPLICATIONS &amp; EXPLORE ALL FEATURES</h2>
+
+<h3>4.1 WPF Cashier POS Terminal (MVVM Client)</h3>
+<p>The cashier terminal is designed for rapid checkout, barcode scanner interaction, and reactive cart updates.</p>
+
+<ol>
+  <li><strong>Sign In:</strong>
+    <ul>
+      <li>Click <strong>Cashier Preset</strong> (or enter <code>cashier1</code> / <code>Cashier@123</code>) and click <strong>SIGN IN TO TERMINAL</strong>.</li>
+    </ul>
+  </li>
+  <li><strong>Screen Navigation:</strong>
+    <ul>
+      <li><strong>POS Cashier Tab:</strong> The main point-of-sale checkout workspace.</li>
+      <li><strong>Live Stock Tab:</strong> Real-time inventory grid showing current stock levels with green ("In Stock") and crimson ("LOW STOCK") status pills.</li>
+      <li><strong>SignalR Pill:</strong> Located in the top header showing live WebSocket connection status (<code>● SignalR: Connected</code>).</li>
+    </ul>
+  </li>
+  <li><strong>Adding Products to Cart:</strong>
+    <ul>
+      <li><strong>Method 1 (Barcode Input):</strong> Click into the "Scan / Enter Barcode..." box, type a barcode (e.g., <code>890123450001</code>), and press <strong>Enter</strong>.</li>
+      <li><strong>Method 2 (Search Filter):</strong> Type in the "Search name or SKU..." box (e.g. <code>Tea</code> or <code>Crisps</code>) to instantly filter the catalog.</li>
+      <li><strong>Method 3 (Quick Add):</strong> Click the blue <strong>"+ Add"</strong> button directly on any product row.</li>
+    </ul>
+  </li>
+  <li><strong>Managing the Cart:</strong>
+    <ul>
+      <li>Use the <strong>+</strong> and <strong>-</strong> buttons to increment or decrement quantities. The system prevents exceeding available stock.</li>
+      <li>Click the red <strong>✕</strong> button to remove an individual item line.</li>
+      <li>Click <strong>Clear Cart</strong> in the top-right to reset the workspace.</li>
+    </ul>
+  </li>
+  <li><strong>Financial Totals &amp; Checkout:</strong>
+    <ul>
+      <li><strong>Subtotal:</strong> Automatically computed from all line totals.</li>
+      <li><strong>Tax (5.0%):</strong> Computed and updated reactively.</li>
+      <li><strong>Discount Box:</strong> Enter a dollar discount (e.g. <code>1.00</code>) to deduct from the Grand Total.</li>
+      <li><strong>Tender Amount:</strong> Enter the amount handed by the customer (e.g. <code>10.00</code>).</li>
+      <li><strong>Change Due:</strong> Automatically calculates the exact change to return.</li>
+      <li><strong>Complete Sale:</strong> Click the green <strong>"✓ COMPLETE SALE &amp; PRINT RECEIPT"</strong> button (or press Enter).</li>
+    </ul>
+  </li>
+  <li><strong>Receipt Printing Preview:</strong>
+    <ul>
+      <li>A modal dialog appears displaying the formatted store receipt with invoice number, timestamp, cashier name, itemized table, totals, and payment details.</li>
+      <li>Click <strong>🖨 Print / Copy Receipt</strong> to copy the receipt text to your clipboard.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h3>4.2 Windows Forms Admin Console</h3>
+<p>The administrative console gives store managers and accountants high-density control and real-time oversight.</p>
+
+<ol>
+  <li><strong>Sign In:</strong>
+    <ul>
+      <li>Click <strong>Admin Preset</strong> (or enter <code>admin</code> / <code>Admin@123</code>) and click <strong>SIGN IN TO DASHBOARD</strong>.</li>
+    </ul>
+  </li>
+  <li><strong>Tab 1: Executive Dashboard &amp; Live Sales Ticker:</strong>
+    <ul>
+      <li><strong>KPI Cards:</strong> Today's Gross Revenue ($), Invoices Issued (#), Low Stock Items Count (highlighted in red), and Catalog Items Count.</li>
+      <li><strong>Live Sales Ticker:</strong> Streams incoming invoices in real-time over SignalR. Whenever any cashier completes a checkout, a new row appears at the top with a green flash!</li>
+    </ul>
+  </li>
+  <li><strong>Tab 2: Catalog &amp; Restock Management:</strong>
+    <ul>
+      <li><strong>Product Table:</strong> Lists SKU, Name, Category, Retail Price, Cost Price, Current Stock, Threshold, and Status.</li>
+      <li><strong>+ Add New Product:</strong> Opens a dialog to register new items with SKU, barcode, pricing, category, and minimum stock threshold.</li>
+      <li><strong>📦 Adjust Stock / Restock:</strong> Select an item and click this button to open the ACID Restock modal. Enter quantity (e.g. <code>+25</code> for shipment arrival or <code>-2</code> for damaged goods), select reason, and submit. The updated stock count is instantly broadcast to all cashiers!</li>
+    </ul>
+  </li>
+  <li><strong>Tab 3: Invoices &amp; Accounting Reports:</strong>
+    <ul>
+      <li>Displays all historical sales with subtotal, tax amount, and payment method.</li>
+      <li>Click <strong>📥 Export Invoices to CSV</strong> to generate a spreadsheet report for Excel.</li>
+    </ul>
+  </li>
+  <li><strong>Tab 4: Staff &amp; Role Management:</strong>
+    <ul>
+      <li>View all registered store staff, assigned roles (Admin, Cashier, Manager), and account status.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h2>5. LIVE DEMO WALKTHROUGH (STEP-BY-STEP)</h2>
+<p>Follow these steps to demonstrate the real-time capabilities to an examiner or interviewer:</p>
+
+<ol>
+  <li>Arrange the <strong>WinForms Admin Screen</strong> on the left side of your monitor and the <strong>WPF Cashier Terminal</strong> on the right side.</li>
+  <li>Notice the initial stock of <strong>"Organic Green Tea 500ml"</strong> (SKU: <code>BEV-002</code>) is <strong>4 units</strong> (Threshold is 5).</li>
+  <li>In WPF, click <strong>"+ Add"</strong> on <code>BEV-002</code>.</li>
+  <li>Enter Tender Amount <strong>`5.00`</strong> and click <strong>"COMPLETE SALE &amp; PRINT RECEIPT"</strong>.</li>
+  <li><strong>Observe the Real-Time Synchronization:</strong>
+    <ul>
+      <li>The <strong>WinForms Live Sales Ticker</strong> instantly adds the new invoice with a green highlight!</li>
+      <li>Today's Revenue KPI card increases by <strong>+$3.41</strong> immediately.</li>
+      <li>Stock drops from 4 to 3 (which is below the threshold of 5).</li>
+      <li><strong>Both screens immediately sound a chime and display a crimson "LOW STOCK ALERT" banner!</strong></li>
+    </ul>
+  </li>
+  <li>In <strong>WinForms</strong>, go to <strong>Catalog &amp; Restock</strong>, click <strong>📦 Adjust Stock / Restock</strong>, choose <code>BEV-002</code>, enter <code>+20</code>, and click <strong>Execute Stock Adjustment</strong>.</li>
+  <li>Switch back to <strong>WPF</strong> &rarr; notice the stock of <code>BEV-002</code> has automatically updated to <strong>23 in stock</strong> without the cashier ever clicking refresh!</li>
+</ol>
+
+<hr style="border: 0; border-top: 1pt solid #E2E8F0; margin: 16pt 0;">
+
+<h2>6. TROUBLESHOOTING &amp; FAQ</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Cause</th>
+      <th>Resolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Port 5000 in use error</td>
+      <td>Another background API process is already running.</td>
+      <td>Run in PowerShell: <code>Get-Process -Name RealTimeInventoryBilling.API -ErrorAction SilentlyContinue | Stop-Process -Force</code></td>
+    </tr>
+    <tr>
+      <td>SignalR status shows "Offline"</td>
+      <td>The API server was started after the desktop client.</td>
+      <td>Ensure the API is started first (or wait 3 seconds; clients will automatically reconnect via <code>.WithAutomaticReconnect()</code>).</td>
+    </tr>
+    <tr>
+      <td>How do I reset test data?</td>
+      <td>You want to restore fresh product stock levels.</td>
+      <td>Simply delete <code>publish\API\inventory.db</code> or restart the API. The system re-seeds automatically on startup!</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="text-align: center; color: #64748B; margin-top: 36pt; font-size: 10pt;">
+  Real-Time Inventory &amp; Billing System &bull; Capstone Project &bull; Built with .NET, WPF MVVM, WinForms, SQL Server, and SignalR
+</p>
+
+</body>
+</html>

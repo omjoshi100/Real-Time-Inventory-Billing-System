@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RealTimeInventoryBilling.API/RealTimeInventoryBilling.API.csproj" />
+    <Project Path="src/RealTimeInventoryBilling.Shared/RealTimeInventoryBilling.Shared.csproj" />
+    <Project Path="src/RealTimeInventoryBilling.WinForms/RealTimeInventoryBilling.WinForms.csproj" />
+    <Project Path="src/RealTimeInventoryBilling.WPF/RealTimeInventoryBilling.WPF.csproj" />
+  </Folder>
+</Solution>
